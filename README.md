@@ -82,12 +82,13 @@ To Answers the Analytics Team and CEO questions, An exploratory data analysis wi
 **Step 08. Final Model:** Select the best parameters and prove that it brings good results.
 
 **Step 09. Business Translation:** Convert the machine learning performance into business result.
+
 ---
 
 ## 4. Mind Map Hypothesis
 
 <p align='center'>
-    <img src='..reports/figures/mind_map.png'<
+    <img src='reports/figures/mind_map.png'<
 </p>
 
 ---
