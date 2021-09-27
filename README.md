@@ -91,8 +91,6 @@ To Answers the Analytics Team and CEO questions, An exploratory data analysis wi
     <img src='reports/figures/mind_map.png'<
 </p>
 
----
-
 ## 5. Top 3 Data Insights
 
 **Insight 01:** Clients with more products has more tendency to be churn.
@@ -128,6 +126,76 @@ The tested models are:
 - CatBoost Classifier
 - Gradient Boosting Classifier
 
+![Confusion_Matrix](reports/figures/confusion_matrix.png)
+
+As a classification problem with imbalanced data, [the accuracy of the model alone doesn't tell us much](https://medium.com/data-hackers/indo-além-da-acurácia-entendo-a-acurácia-balanceada-precisão-recall-e-f1-score-c895e55a9753), for a better analysis, we use other metrics such as accuracy, recall and F1-Score.
+
+![Classification_Report](reports/figures/classification_report.png)
+
+The ROCAUC shows how much the algorithm is capable of distinguishing between classes.
+
+![Roc_Curve](reports/figures/roc_auc.png)
+
+Using the Cross Validation with 10 parts, The mean F1-Score result of the CatBoostClassifier and GradientBoostingClassifier 
+show that the two models really are the ones with the best results for this case.
+
+![CV_F1](reports/figures/cv_f1.png)
+
+In XGB, Random Forest, Catboost and Gradient Boosting, if 20% of the clients in the sample are contacted, about 60% of the in churn clients are most likely to respont to a offer.
+
+![Cumulative_Gain](reports/figures/cumulative_gain.png)
+
+- The lift curve uses the returned probability of a classification model to measure how the model is performing.
+- The highest probability appear on the left of the graph, usually along with the highest Lift scores.
+- The greater the area between the lift curve and the baseline, the better the model.
+
+You can see this [here](https://towardsdatascience.com/the-lift-curve-unveiled-998851147871).
+
+![Lift_Curve](reports/figures/lift_curve.png)
+
 The best model in this case was the CatBoost Classifier.
 
+## 7. Machine Learning Performance
+
+The performance of the tunned model was slighty higher than the basic CatBoost, you can see that in the confusion matrix where the basic model is on the left and the tunned on the other side. Despite the low gain in accuracy and precision, the tuned model has better results, and you need to remember that we are dealing with a very imbalanced dataset.
+
+| CatBoostClassifier | Accuracy | Precision | Recall | F1-Score | ROCAUC |
+| ------------------ | -------- | --------- | ------ | -------- | ------ |
+| Basic              | 86.7%    | 73.5%     | 49.6%  | 59.2%    | 86.6%  |
+| Tunned             | 86.9%    | 75.4%     | 49%    | 59.4%    | 87.2%  |
+
+
+![Confusion_Matrix](reports/figures/comparation_confusion_matrix.png)
+
+
+![Cumulative_gain_comparation](reports/figures/cumulative_gain_comparation.png)
+
+
+![Lift_Curve_Comparation](reports/figures/lift_curve_comparation.png)
+
+After the comparation, I tried to use a post-processing operation called model calibration, this method tries to improve the probability estimation with a calibration method, in this case, the Isotonic method. According the [reference](https://towardsdatascience.com/classifier-calibration-7d0be1e05452), the accuracy and rocauc of the model might be lower after calibration. If the Precision, Recall or F1 have a significant increase, we can use the calibrated as the final model, if not, we will keep the tuned model.
+
+
+
+| CatBoostClassifier | Accuracy | Precision | Recall | F1-Score | ROCAUC |
+| ------------------ | -------- | --------- | ------ | -------- | ------ |
+| Tunned             | 86.9%    | 75.4%     | 49%    | 59.4%    | 87.2%  |
+| Calibrated         | 86.8%    | 75.5%     | 47.9%  | 58.6%    | 87.1%  |
+
+According this [reference](https://en.wikipedia.org/wiki/Precision_and_recall), higher precision means that an algorithm returns more relevant results than irrelevant ones, and high recall means that an algorithm returns most of the relevant results. The precision increased 0.1% and Recall decreased 1.1%, so I think it's better to keep the basic tunned model. The small increase in precision doesn't justify the calibration process. So, the final model is the CatBoost Tunned.
+
 ---
+
+## 8. Bussiness Performance
+
+---
+
+## 9. Lessons Learned
+
+## 10. Next Steps
+
+- Test other simulation with other budgets in order to search better scenarios
+- Train other models in search to better results in precision, recall and F1-Score
+- If can get more data, experiment data balance for a better performance
+
+
