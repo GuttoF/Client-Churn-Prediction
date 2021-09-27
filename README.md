@@ -1,4 +1,4 @@
-# <b>Client Churn Predict</b>
+# <b>Client Churn Prediction</b>
 
 <p align='center'>
     <img src='reports/figures/churn-rate.jpg'<
